@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1712079234 source:d:\facul\estruturas_de_dados\listacircular\main.cpp
+	<iostream>
+	"ListaCircular.h"
+
+1712079266 d:\facul\estruturas_de_dados\listacircular\listacircular.h
+	<iostream>
+
