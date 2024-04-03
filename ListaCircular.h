@@ -24,7 +24,7 @@ template <typename T> void cria(ListaCircular<T> &lista) {
 
 template <typename T> void destroi(ListaCircular<T> &lista) {
   while (lista.cardinalidade>0){
-    retirar(lista,lista.inicio->elemento); // poderia ser feita de uma forma com melhor performance, mas na minha opinião dessa forma fica muito mais limpo
+    retirar(lista,lista.inicio->elemento);// poderia ser feita de uma forma com melhor performance, mas na minha opinião dessa forma fica muito mais limpo
   }
   lista.cardinalidade = 0;
 }
@@ -56,8 +56,7 @@ template <typename T> int recPos(ListaCircular<T> lista, T elem) {
     pos++;
     p = p->proximo;
   }
-  cout<<"Elemento nao esta na lista."<<endl;
-  return -1; // caso não achar o elemento retorna -1, pois -1 não pode ser uma posição.
+  throw "Erro na funcao recPos: Elemento nao esta na lista!";// caso não achar o elemento retorna -1, pois -1 não pode ser uma posição.
 }
 
 template <typename T> T recElem(ListaCircular<T> lista, int pos) {
@@ -93,7 +92,7 @@ template <typename T> void mostraLista(ListaCircular<T> lista){
   if(i==1) cout<<"Essa lista está vazia"<<endl;
 }
 
-template<typename T> void insere(ListaCircular<T> &lista, int pos, T elem){
+template<typename T> void insere(ListaCircular<T> &lista, int pos, T elem){ // TRATAR OVERFLOW
 
   if (!posValida(lista,pos)) throw "Erro na funcao insere: posicao invalida!";
 
@@ -131,10 +130,8 @@ template<typename T> void insere(ListaCircular<T> &lista, int pos, T elem){
 }
 
 template<typename T>
-void retirar(ListaCircular<T> &lista, T elem){
-  int pos = recPos(lista, elem); // pegando a posição do elemento
-
-  if(pos == -1) throw "A posicao informada nao e valida!";
+void retirar(ListaCircular<T> &lista, T elem){ // TRATAR UNDERFLOW
+  int pos = recPos(lista, elem); // pegando a posição do elemento, posicao ja esta sendo validada dentro dessa funcao
 
   Nodo<T>* removido = recRefPos(lista, pos); // recuperando o endereço do Nodo que será removido com base na posição
   if(lista.cardinalidade == 1){ // tratando cada caso de retirada de elemento, procurei deixar a lógica bem explicita
