@@ -41,6 +41,10 @@ template <typename T> bool elemExiste(ListaCircular<T> lista, T elem) {
   return false;
 }
 
+template <typename T> int tamanho(ListaCircular<T> lista) {
+    return lista.cardinalidade;
+}
+
 template <typename T> bool posValida(ListaCircular<T> lista, int posicao){
   return (posicao <= lista.cardinalidade+1 && posicao >= 1); // basicamente confere se se tem elemento na posição informada
 }
