@@ -24,7 +24,8 @@ template <typename T> void cria(ListaCircular<T> &lista) {
 
 template <typename T> void destroi(ListaCircular<T> &lista) {
   while (lista.cardinalidade>0){
-    retirar(lista,lista.inicio->elemento);// poderia ser feita de uma forma com melhor performance, mas na minha opinião dessa forma fica muito mais limpo
+    Nodo<T>* p=lista.inicio;
+    retirar(lista,p->elemento);// poderia ser feita de uma forma com melhor performance, mas na minha opinião dessa forma fica muito mais limpo
   }
   lista.cardinalidade = 0;
 }

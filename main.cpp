@@ -8,16 +8,11 @@
 
 using namespace std;
 
-int main() {
-    string nomeArq;
-    cout<<"Digite o caminho completo do arquivo .txt contendo as palavras: ";
-    getline(cin,nomeArq);
-
-    srand(time(NULL));
-
-    int linha = rand()% 3;
+string selecionaPalavra(string nomeArq) {
 
     ListaCircular<string> palavras;
+
+    cria(palavras);
 
     ifstream arquivo(nomeArq);
 
@@ -31,9 +26,31 @@ int main() {
 
         arquivo.close(); // Fecha o arquivo após a leitura
     } else {
-        cout << "Não foi possível abrir o arquivo: " << nomeArq << std::endl;
+        throw "Erro na funcao selecionaPalavra: Nao foi possivel ler o arquivo";
     }
 
-    mostraLista(palavras);
+    srand(time(NULL));
+
+    int linha = rand()% (tamanho(palavras))+1; // para que não caia na posição 0 e nem em uma posição maior que o tamanho da lista.
+
+    string palavra = recElem(palavras,linha);
+
+    destroi(palavras);
+
+    return palavra;
+}
+
+int main() {
+
+    string nomeArq;
+    cout<<"Digite o caminho completo do arquivo .txt contendo as palavras: ";
+    getline(cin,nomeArq);
+
+    try{
+        cout<<selecionaPalavra(nomeArq);
+    }catch(const char* erro){
+        cout<<erro<<endl;
+    }
+
 
 }
