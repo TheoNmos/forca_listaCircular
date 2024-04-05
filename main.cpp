@@ -12,9 +12,10 @@ using namespace std;
 void verificaAcertos(ListaCircular<char> palavra, char palpite, ListaCircular<char> &acertos, int &contAcertos){
     bool achou = false;
     for(int i = 1; i<=tamanho(palavra); i++){
-        if(recElem(palavra, i)==palpite){
+        if(recElem(palavra, i)==tolower(palpite)){
 
             try{
+            palpite = tolower(palpite);
             retirar(acertos, i);
             insere(acertos, i, palpite);
             achou = true;
@@ -70,20 +71,42 @@ void insereLetras(ListaCircular<char>& lista, string palavra){
     }
 }
 
+void desenha_boneco(int vidas) {
+    // Cabeça, corpo, braços e pernas serão adicionados conforme as vidas forem perdidas
+    cout << "  +---+" << endl;
+    cout << "  |   |" << endl;
+    if (vidas <= 5) cout << "  O   |" << endl; // Cabeça
+    else cout << "      |" << endl;
+
+    if (vidas <= 3) cout << " /|\\  |" << endl; // Corpo e braços
+    else if (vidas == 4) cout << " /|   |"<<endl;
+    else if (vidas == 5) cout << "  |   |" << endl;
+    else cout << "      |" << endl;
+
+    if (vidas <= 1) cout << " / \\  |" << endl; // Pernas
+    else if (vidas == 2) cout << " /    |" << endl;
+    else cout << "      |" << endl;
+
+    cout << "      |" << endl;
+    cout << "=========" << endl;
+}
+
 void mostraForca(ListaCircular<char> acertos, string tentativas, int numTentativas,int contAcertos){
     cout<<"FORCA: ";
     mostraListaLinear(acertos);
 
     cout<<endl;
     tentativas.size() > 0 ? cout<<"Voce ja tentou as letras: "<<tentativas<<endl : cout<<"Voce ainda nao tentou nenhuma letra!"<<endl;
-    cout<<"Vidas: "<<6-numTentativas+contAcertos<<endl;
+    cout<<"Jogador: "<<endl;
+    desenha_boneco(6-numTentativas+contAcertos);
+    cout<<"Vidas: "<<5-numTentativas+contAcertos<<endl;
 }
 
 bool validaPalpite(string palpite,string tentativas){
     if (palpite.size() != 1 || !isalpha(palpite[0])) return false;
 
     for(int i = 0;i<tentativas.size();i++){
-        if (palpite[0] == tentativas[i]){
+        if (tolower(palpite[0]) == tentativas[i]){
             return false;
         }
     }
@@ -96,7 +119,7 @@ int main() {
     getline(cin,nomeArq);
 
     string palavra = "";
-
+while(true){
     try{
         palavra = selecionaPalavra(nomeArq);
     }catch(const char* erro){
@@ -122,9 +145,14 @@ int main() {
     while(true){
         if (!elemExiste(acertos,'_')){
             cout<<"Parabens! Voce acertou a palavra: "<< palavra << endl;
+            destroi(letras);
+            destroi(acertos);
             break;
-        }else if(numTentativas-contAcertos==6){
+        }else if(numTentativas-contAcertos==5){
+            desenha_boneco(5-numTentativas+contAcertos);
             cout<<"Voce perdeu! A palavra era : "<< palavra <<endl;
+            destroi(letras);
+            destroi(acertos);
             break;
         }
         string palpite = "";
@@ -133,7 +161,9 @@ int main() {
 
         cout<<"Faca sua tentativa: ";
         getline(cin,palpite);
+
         if (validaPalpite(palpite,tentativas)){ // validando para ver se realmente foi informada uma letra
+
             tentativas += palpite + ", ";
             numTentativas++;
             verificaAcertos(letras, palpite[0], acertos, contAcertos);
@@ -142,8 +172,16 @@ int main() {
             cout<<"valor informado e invalido"<<endl;
             continue;
         }
+
+    }
+    char jogar;
+    cout << "digite S se deseja jogar novamente. ";
+    cin.get(jogar);
+    cin.ignore();
+    if(toupper(jogar)!='S'){
+        break;
     }
 
-destroi(letras);
-destroi(acertos);
+}
+
 }
