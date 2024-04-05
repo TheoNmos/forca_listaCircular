@@ -9,6 +9,27 @@
 
 using namespace std;
 
+void verificaAcertos(ListaCircular<char> palavra, char palpite, ListaCircular<char> &acertos, int &contAcertos){
+    for(int i = 1; i<=tamanho(palavra); i++){
+        if(recElem(palavra, i)==palpite){
+            cout<<i<<endl;
+            try{
+            retirar(acertos, recElem(acertos, i));
+            insere(acertos, i, palpite);
+            contAcertos++;
+            }catch(const char* erro){
+                cout<<erro<<endl;
+            }
+        }
+    }
+}
+
+void preencherAcertos(ListaCircular<char> &acertos, ListaCircular<char> palavra){
+    for(int i = 1; i<=tamanho(palavra);i++){
+        insere(acertos, 1, '_');
+    }
+}
+
 string selecionaPalavra(string nomeArq) {
 
     ListaCircular<string> palavras;
@@ -47,14 +68,13 @@ void insereLetras(ListaCircular<char>& lista, string palavra){
     }
 }
 
-void mostraForca(ListaCircular<char>& lista, string tentativas, int numTentativas){
+void mostraForca(ListaCircular<char> acertos, string tentativas, int numTentativas,int contAcertos){
     cout<<"FORCA: ";
-    for(int i = 1;i<=tamanho(lista);i++){
-        cout<<"_ ";
-    }
+    mostraListaLinear(acertos);
+
     cout<<endl;
     tentativas.size() > 0 ? cout<<"Voce ja tentou as letras: "<<tentativas<<endl : cout<<"Voce ainda nao tentou nenhuma letra!"<<endl;
-    cout<<"Vidas: "<<5-numTentativas<<endl;
+    cout<<"Vidas: "<<6-numTentativas+contAcertos<<endl;
 }
 
 bool validaPalpite(string palpite,string tentativas){
@@ -69,7 +89,6 @@ bool validaPalpite(string palpite,string tentativas){
 }
 
 int main() {
-
     string nomeArq;
     cout<<"Digite o caminho completo do arquivo .txt contendo as palavras: ";
     getline(cin,nomeArq);
@@ -92,34 +111,38 @@ int main() {
 
     int numTentativas = 0;
 
+    int contAcertos = 0;
+
+    ListaCircular<char> acertos;
+    cria(acertos);
+    preencherAcertos(acertos, letras);
+
     while(true){
-        if (numTentativas == 6){
-            cout<<"Voce perdeu! A palavra era : "<< palavra<<endl; // BOTAR PALAVRA AQUI
+        if (contAcertos == tamanho(letras)){
+            cout<<"Parabens! Voce acertou a palavra!"<<endl;
+            break;
+        }else if(numTentativas-contAcertos == 6){
+            cout<<"Voce perdeu! A palavra era : "<< palavra <<endl;
             break;
         }
         string palpite = "";
-        mostraForca(letras,tentativas,numTentativas);
+
+        mostraForca(acertos,tentativas,numTentativas,contAcertos);
 
         cout<<"Faca sua tentativa: ";
         getline(cin,palpite);
         if (validaPalpite(palpite,tentativas)){ // validando para ver se realmente foi informada uma letra
             tentativas += palpite + ", ";
             numTentativas++;
+            verificaAcertos(letras, palpite[0], acertos, contAcertos);
         }
         else{
-            cout<<"valor informado e invalido";
+            cout<<"valor informado e invalido"<<endl;
             continue;
         }
 
     }
 
-
-
-
-
-
-    mostraLista(letras);
-
-
-
+destroi(letras);
+destroi(acertos);
 }
