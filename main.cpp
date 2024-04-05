@@ -10,18 +10,20 @@
 using namespace std;
 
 void verificaAcertos(ListaCircular<char> palavra, char palpite, ListaCircular<char> &acertos, int &contAcertos){
+    bool achou = false;
     for(int i = 1; i<=tamanho(palavra); i++){
         if(recElem(palavra, i)==palpite){
-            cout<<i<<endl;
+
             try{
-            retirar(acertos, recElem(acertos, i));
+            retirar(acertos, i);
             insere(acertos, i, palpite);
-            contAcertos++;
+            achou = true;
             }catch(const char* erro){
                 cout<<erro<<endl;
             }
         }
     }
+    if(achou){contAcertos++;}
 }
 
 void preencherAcertos(ListaCircular<char> &acertos, ListaCircular<char> palavra){
@@ -118,10 +120,10 @@ int main() {
     preencherAcertos(acertos, letras);
 
     while(true){
-        if (contAcertos == tamanho(letras)){
-            cout<<"Parabens! Voce acertou a palavra!"<<endl;
+        if (!elemExiste(acertos,'_')){
+            cout<<"Parabens! Voce acertou a palavra: "<< palavra << endl;
             break;
-        }else if(numTentativas-contAcertos == 6){
+        }else if(numTentativas-contAcertos==6){
             cout<<"Voce perdeu! A palavra era : "<< palavra <<endl;
             break;
         }
@@ -132,6 +134,7 @@ int main() {
         cout<<"Faca sua tentativa: ";
         getline(cin,palpite);
         if (validaPalpite(palpite,tentativas)){ // validando para ver se realmente foi informada uma letra
+
             tentativas += palpite + ", ";
             numTentativas++;
             verificaAcertos(letras, palpite[0], acertos, contAcertos);

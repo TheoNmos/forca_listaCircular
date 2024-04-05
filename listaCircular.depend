@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1712324694 source:d:\facul\estruturas_de_dados\listacircular\main.cpp
+1712325529 source:d:\facul\estruturas_de_dados\listacircular\main.cpp
 	<iostream>
 	"ListaCircular.h"
 	<fstream>
@@ -8,6 +8,6 @@
 	<ctime>
 	<cctype>
 
-1712324838 d:\facul\estruturas_de_dados\listacircular\listacircular.h
+1712325898 d:\facul\estruturas_de_dados\listacircular\listacircular.h
 	<iostream>
 
