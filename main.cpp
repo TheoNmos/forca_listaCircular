@@ -134,7 +134,6 @@ int main() {
         cout<<"Faca sua tentativa: ";
         getline(cin,palpite);
         if (validaPalpite(palpite,tentativas)){ // validando para ver se realmente foi informada uma letra
-
             tentativas += palpite + ", ";
             numTentativas++;
             verificaAcertos(letras, palpite[0], acertos, contAcertos);
@@ -143,7 +142,6 @@ int main() {
             cout<<"valor informado e invalido"<<endl;
             continue;
         }
-
     }
 
 destroi(letras);
