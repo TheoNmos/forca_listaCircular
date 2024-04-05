@@ -86,7 +86,7 @@ template <typename T> Nodo<T>* recRefPos(ListaCircular<T> lista, int pos) { // r
     p = p->proximo;
   }
   return p;
-} // ao inves de retornar o elemento ou a posição retorna direto a referencia do elemento. Essa função é uam função auxiliar, utilizada apenas dentro de outras funções
+} // ao inves de retornar o elemento ou a posição retorna direto a referencia do elemento. Essa função é uma função auxiliar, utilizada apenas dentro de outras funções
 
 template <typename T> void mostraLista(ListaCircular<T> lista){
   int i =1;
@@ -143,8 +143,7 @@ template<typename T> void insere(ListaCircular<T> &lista, int pos, T elem){ // T
   lista.cardinalidade++;
 }
 
-template<typename T>
-void retirar(ListaCircular<T> &lista, int pos){ // TRATAR UNDERFLOW
+template<typename T> void retirar(ListaCircular<T> &lista, int pos){ // TRATAR UNDERFLOW
   posValida(lista,pos); // validando posição informada
 
   Nodo<T>* removido = recRefPos(lista, pos); // recuperando o endereço do Nodo que será removido com base na posição
