@@ -24,7 +24,8 @@ template <typename T> void cria(ListaCircular<T> &lista) {
 
 template <typename T> void destroi(ListaCircular<T> &lista) {
   while (lista.cardinalidade>0){
-    retirar(lista,lista.inicio->elemento); // poderia ser feita de uma forma com melhor performance, mas na minha opinião dessa forma fica muito mais limpo
+    Nodo<T>* p=lista.inicio;
+    retirar(lista,recPos(lista,p->elemento));// poderia ser feita de uma forma com melhor performance, mas na minha opinião dessa forma fica muito mais limpo
   }
   lista.cardinalidade = 0;
 }
@@ -41,8 +42,12 @@ template <typename T> bool elemExiste(ListaCircular<T> lista, T elem) {
   return false;
 }
 
+template <typename T> int tamanho(ListaCircular<T> lista) {
+    return lista.cardinalidade;
+}
+
 template <typename T> bool posValida(ListaCircular<T> lista, int posicao){
-  return (posicao <= lista.cardinalidade+1 && posicao >= 1); // basicamente confere se se tem elemento na posição informada
+  return (posicao <= lista.cardinalidade+1 || posicao >= 1); // basicamente confere se se tem elemento na posição informada
 }
 
 template <typename T> int recPos(ListaCircular<T> lista, T elem) {
@@ -56,8 +61,7 @@ template <typename T> int recPos(ListaCircular<T> lista, T elem) {
     pos++;
     p = p->proximo;
   }
-  cout<<"Elemento nao esta na lista."<<endl;
-  return -1; // caso não achar o elemento retorna -1, pois -1 não pode ser uma posição.
+  throw "Erro na funcao recPos: Elemento nao esta na lista!";// caso não achar o elemento retorna -1, pois -1 não pode ser uma posição.
 }
 
 template <typename T> T recElem(ListaCircular<T> lista, int pos) {
@@ -93,7 +97,16 @@ template <typename T> void mostraLista(ListaCircular<T> lista){
   if(i==1) cout<<"Essa lista está vazia"<<endl;
 }
 
-template<typename T> void insere(ListaCircular<T> &lista, int pos, T elem){
+template <typename T> void mostraListaLinear(ListaCircular<T> lista){
+  int i =1;
+  while(i<=lista.cardinalidade){
+    cout<<recElem(lista,i)<< " "; // mostra os elementos na tela em apenas uma linha separados por espaço
+    i++;
+  }
+  if(i==1) cout<<"Essa lista está vazia"<<endl;
+}
+
+template<typename T> void insere(ListaCircular<T> &lista, int pos, T elem){ // TRATAR OVERFLOW
 
   if (!posValida(lista,pos)) throw "Erro na funcao insere: posicao invalida!";
 
@@ -131,10 +144,8 @@ template<typename T> void insere(ListaCircular<T> &lista, int pos, T elem){
 }
 
 template<typename T>
-void retirar(ListaCircular<T> &lista, T elem){
-  int pos = recPos(lista, elem); // pegando a posição do elemento
-
-  if(pos == -1) throw "A posicao informada nao e valida!";
+void retirar(ListaCircular<T> &lista, int pos){ // TRATAR UNDERFLOW
+  posValida(lista,pos); // validando posição informada
 
   Nodo<T>* removido = recRefPos(lista, pos); // recuperando o endereço do Nodo que será removido com base na posição
   if(lista.cardinalidade == 1){ // tratando cada caso de retirada de elemento, procurei deixar a lógica bem explicita
