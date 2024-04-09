@@ -10,7 +10,7 @@
 using namespace std;
 
 void verificaAcertos(ListaCircular<char> palavra, char palpite, ListaCircular<char> &acertos, int &contAcertos){
-    bool achou = false;                         // Se o palpite está na palavra e se
+    bool achou = false;                         // Verifica se o palpite está na palavra e conta os acertos.
     for(int i = 1; i<=tamanho(palavra); i++){
         if(recElem(palavra, i)==tolower(palpite)){
 
@@ -106,7 +106,7 @@ void mostraForca(ListaCircular<char> acertos, string tentativas, int numTentativ
 }
 
 
-bool validaPalpite(string palpite,string tentativas){ // Valida se o palpite realmente tem apenas uma letra.
+bool validaPalpite(string palpite,string tentativas){ // Valida se o palpite realmente tem apenas uma letra e se a letra é repetida.
     if (palpite.size() != 1 || !isalpha(palpite[0])) return false;
 
     for(int i = 0;i<tentativas.size();i++){
@@ -119,17 +119,22 @@ bool validaPalpite(string palpite,string tentativas){ // Valida se o palpite rea
 
 
 int main() {
-    string nomeArq;
-    cout<<"Digite o caminho completo do arquivo .txt contendo as palavras: ";
-    getline(cin,nomeArq);
-
     string palavra = "";
+    string nomeArq;
     while(true){
         try{
-            palavra = selecionaPalavra(nomeArq);
+            cout<<"Digite o caminho completo do arquivo .txt contendo as palavras: ";
+            getline(cin,nomeArq);
+
+            palavra = selecionaPalavra(nomeArq); // chama para validar se o endereço informado é correto.
+            break;
         }catch(const char* erro){
             cout<<erro<<endl;
         }
+    }
+
+    while(true){
+        palavra = selecionaPalavra(nomeArq);
 
         ListaCircular<char> letras;
 
@@ -146,8 +151,11 @@ int main() {
         preencherAcertos(acertos, letras);
 
         while(true){
-            if (!elemExiste(acertos,'_')){
+            if (!elemExiste(acertos,'_')){ // Caso não tenha mais _ na lista de acertos significa que o jogador preencheu todas as letras corretamente
+                cout<<"================================================"<<endl;
+                mostraForca(acertos,tentativas,numTentativas,contAcertos);
                 cout<<"Parabens! Voce acertou a palavra: "<< palavra << endl;
+                cout<<"================================================"<<endl;
                 destroi(letras);
                 destroi(acertos);
                 break;
