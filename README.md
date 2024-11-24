@@ -18,7 +18,9 @@ The circular linked list is basicaly a common linked list, but its last node has
 
 ## Example of gameplay
 
-![image](https://github.com/user-attachments/assets/b49794d2-30b7-413c-afed-e67fb7b583d4)
+![image](https://github.com/user-attachments/assets/f851e5d2-7a38-4f30-bc1d-68870c54be95)
+
+![image](https://github.com/user-attachments/assets/712b79de-2322-4dd8-8225-1a669c3482d4)
 
 
 
