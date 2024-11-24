@@ -6,7 +6,6 @@ The circular linked list is basicaly a common linked list, but its last node has
 
 ![image](https://github.com/user-attachments/assets/94b13470-b09a-4af7-9f37-294cd1c2e64b)
 
-
 ## Features
 - Random word selection from a `.txt` file.
 - Interactive terminal-based gameplay.
@@ -16,3 +15,10 @@ The circular linked list is basicaly a common linked list, but its last node has
 ## Project Structure
 - **`ListaCircular.h`**: Contains the implementation of the circular linked list and related functions.
 - **`main.cpp`**: Implements the game logic.
+
+## Example of gameplay
+
+![image](https://github.com/user-attachments/assets/b49794d2-30b7-413c-afed-e67fb7b583d4)
+
+
+
